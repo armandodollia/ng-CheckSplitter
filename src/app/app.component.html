@@ -1,3 +1,20 @@
+<label for="currentItemName">Patron Name: {{currentPatronName}}</label>
+<br>
+<input
+  type="text"
+  id="currentPatronName"
+  (keyup.enter)="createPatron()"
+  [(ngModel)]="currentPatronName"
+>
+<br>
+<button (click)="createPatron()">Add Patron</button>
+<br>
+
+
+<select *ngIf="patrons[0]" name="patronSelector" id="patronSelector">
+  <option *ngFor="let patron of patrons" value={{patron.name}}>{{patron.name}}</option>
+</select>
+
 <label for="currentItemName">Name: {{currentItemName}}</label>
 <br>
 <input
@@ -17,6 +34,7 @@
   [(ngModel)]="currentItemPrice"
 >
 <br>
+<button (click)="addToItems()">Add Item</button>
 
 <ul>
   <li *ngFor="let item of items">
