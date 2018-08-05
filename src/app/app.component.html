@@ -1,3 +1,25 @@
-<h1>
-  {{title}}
-</h1>
+<label for="currentItemName">Name: {{currentItemName}}</label>
+<br>
+<input
+  type="text"
+  id="currentItemName"
+  (keyup.enter)="addToItems()"
+  [(ngModel)]="currentItemName"
+>
+<br>
+
+<label for="currentItemName">Price: {{currentItemPrice}}</label>
+<br>
+<input
+  type="text"
+  id="currentItemPrice"
+  (keyup.enter)="addToItems()"
+  [(ngModel)]="currentItemPrice"
+>
+<br>
+
+<ul>
+  <li *ngFor="let item of items">
+    {{item.name}} - ${{item.price}}
+  </li>
+</ul>

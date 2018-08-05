@@ -6,5 +6,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  items = [];
+  currentItemName = '';
+  currentItemPrice = null;
+  totalPrice = 0;
+
+  addToItems(){
+    if (this.currentItemName && this.currentItemPrice && !!Number(this.currentItemPrice)) {
+      this.items.push({
+        name: this.currentItemName,
+        price: this.currentItemPrice
+      });
+
+      this.currentItemName = '';
+      this.currentItemPrice = null;
+    }
+
+
+  }
 }
