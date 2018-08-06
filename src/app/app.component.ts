@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
 import {Item} from './item';
 import {Patron} from './patron';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   items: Item[];
   patrons: Patron[];
+  currentPatron: Patron;
 
-  currentPatronName: string;
+  newPatronName: string;
   currentItemName: string;
   currentItemPrice: number;
   totalPreTaxPrice: number;
@@ -21,14 +24,18 @@ export class AppComponent {
     this.patrons = [];
   }
 
-  createPatron(){
-    const newPatron: Patron = {
-      name: this.currentPatronName,
-      items: []
-    };
+  createPatron() {
+    if (this.newPatronName) {
+      const newPatron: Patron = {
+        id: uuid(),
+        name: this.newPatronName,
+        items: []
+      };
 
-    this.patrons.push(newPatron);
-    this.currentPatronName = '';
+      this.patrons.push(newPatron);
+      this.newPatronName = '';
+    }
+
   }
 
   addToItems() {
@@ -41,7 +48,7 @@ export class AppComponent {
         name: this.currentItemName,
         price: this.currentItemPrice
       };
-      this.items.push(item);
+      this.currentPatron.items.push(item);
 
       this.currentItemName = '';
       this.currentItemPrice = null;

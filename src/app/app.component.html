@@ -1,43 +1,51 @@
-<label for="currentItemName">Patron Name: {{currentPatronName}}</label>
+<label for="currentItemName">Patron Name: {{newPatronName}}</label>
 <br>
 <input
   type="text"
   id="currentPatronName"
   (keyup.enter)="createPatron()"
-  [(ngModel)]="currentPatronName"
+  [(ngModel)]="newPatronName"
 >
 <br>
 <button (click)="createPatron()">Add Patron</button>
 <br>
 
 
-<select *ngIf="patrons[0]" name="patronSelector" id="patronSelector">
-  <option *ngFor="let patron of patrons" value={{patron.name}}>{{patron.name}}</option>
+<select *ngIf="patrons[0]" [(ngModel)]="currentPatron" name="patronSelector" id="patronSelector">
+  <option value=""></option>
+  <option *ngFor="let patron of patrons" [ngValue]="patron">{{patron.name}}</option>
 </select>
 
-<label for="currentItemName">Name: {{currentItemName}}</label>
-<br>
-<input
-  type="text"
-  id="currentItemName"
-  (keyup.enter)="addToItems()"
-  [(ngModel)]="currentItemName"
->
 <br>
 
-<label for="currentItemName">Price: {{currentItemPrice}}</label>
-<br>
-<input
-  type="text"
-  id="currentItemPrice"
-  (keyup.enter)="addToItems()"
-  [(ngModel)]="currentItemPrice"
->
-<br>
-<button (click)="addToItems()">Add Item</button>
+<div *ngIf="currentPatron">
+  <label for="currentItemName">Name: {{currentItemName}}</label>
+  <br>
+  <input
+    type="text"
+    id="currentItemName"
+    (keyup.enter)="addToItems()"
+    [(ngModel)]="currentItemName"
+  >
+  <br>
 
-<ul>
-  <li *ngFor="let item of items">
-    {{item.name}} - ${{item.price}}
-  </li>
-</ul>
+  <label for="currentItemName">Price: {{currentItemPrice}}</label>
+  <br>
+  <input
+    type="text"
+    id="currentItemPrice"
+    (keyup.enter)="addToItems()"
+    [(ngModel)]="currentItemPrice"
+  >
+  <br>
+  <button (click)="addToItems()">Add Item</button>
+
+  <ul *ngIf="currentPatron">
+    <li *ngFor="let item of currentPatron.items">
+      {{item.name}} - ${{item.price}}
+    </li>
+  </ul>
+</div>
+
+
+
