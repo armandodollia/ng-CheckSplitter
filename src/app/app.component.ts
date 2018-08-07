@@ -18,10 +18,16 @@ export class AppComponent {
   currentItemName: string;
   currentItemPrice: number;
   totalPreTaxPrice: number;
+  tax: number;
+  tipPercent: number;
 
   constructor() {
     this.items = [];
     this.patrons = [];
+  }
+
+  get tipAmount(){
+    return (this.tax + this.totalPreTaxPrice) * (this.tipPercent / 100);
   }
 
   createPatron() {
@@ -38,6 +44,15 @@ export class AppComponent {
 
   }
 
+  addItemToPatron(id, item) {
+    const patron = this.patrons.find(i => i.id === id);
+    const itemIndex = patron.items.findIndex(i => i.id === item.id);
+
+    if (itemIndex === -1) {
+      patron.items.push(item);
+    }
+  }
+
   addToItems() {
     if (
       this.currentItemName &&
@@ -45,10 +60,11 @@ export class AppComponent {
       !!Number(this.currentItemPrice)
     ) {
       const item: Item = {
+        id: uuid(),
         name: this.currentItemName,
         price: this.currentItemPrice
       };
-      this.currentPatron.items.push(item);
+      this.items.push(item);
 
       this.currentItemName = '';
       this.currentItemPrice = null;

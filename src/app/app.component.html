@@ -11,14 +11,25 @@
 <br>
 
 
-<select *ngIf="patrons[0]" [(ngModel)]="currentPatron" name="patronSelector" id="patronSelector">
-  <option value=""></option>
-  <option *ngFor="let patron of patrons" [ngValue]="patron">{{patron.name}}</option>
-</select>
+<!--<select *ngIf="patrons[0]" [(ngModel)]="currentPatron" name="patronSelector" id="patronSelector">-->
+  <!--<option *ngFor="let patron of patrons" [ngValue]="patron">{{patron.name}}</option>-->
+<!--</select>-->
 
 <br>
+<br>
 
-<div *ngIf="currentPatron">
+<label for="totalPreTaxPrice">Total pre-tax Price $</label>
+<input type="number" id="totalPreTaxPrice" [(ngModel)]="totalPreTaxPrice">
+<br>
+<label for="tax">Total tax amount $</label>
+<input type="number" id="tax" [(ngModel)]="tax">
+<br>
+<label for="tipPercent">Desired tip percentage</label>
+<input type="number" id="tipPercent" [(ngModel)]="tipPercent">
+
+<h3 *ngIf="totalPreTaxPrice && tax && tipPercent">Total tip ${{tipAmount}}</h3>
+
+<div *ngIf="patrons.length > 1">
   <label for="currentItemName">Name: {{currentItemName}}</label>
   <br>
   <input
@@ -32,7 +43,7 @@
   <label for="currentItemName">Price: {{currentItemPrice}}</label>
   <br>
   <input
-    type="text"
+    type="number"
     id="currentItemPrice"
     (keyup.enter)="addToItems()"
     [(ngModel)]="currentItemPrice"
@@ -40,12 +51,38 @@
   <br>
   <button (click)="addToItems()">Add Item</button>
 
-  <ul *ngIf="currentPatron">
-    <li *ngFor="let item of currentPatron.items">
+  <h3>All Items</h3>
+
+  <ul *ngIf="items">
+    <li *ngFor="let item of items">
       {{item.name}} - ${{item.price}}
+
+      <select
+        *ngIf="patrons[0]"
+        name="patronSelector"
+        id="patronSelector"
+        (change)="addItemToPatron($event.target.value, item)"
+      >
+        <option *ngFor="let patron of patrons"
+                [value]="patron.id"
+        >
+          {{patron.name}}
+        </option>
+      </select>
+
     </li>
   </ul>
+
 </div>
 
+<br>
+<br>
 
-
+<ul>
+  <li *ngFor="let patron of patrons">
+    <p>{{patron.name}}</p>
+    <ul *ngIf="patron.items[0]">
+      <li *ngFor="let item of patron.items">{{item.name}} - ${{item.price}}</li>
+    </ul>
+  </li>
+</ul>
